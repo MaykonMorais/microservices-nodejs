@@ -1,3 +1,7 @@
+import "@opentelemetry/auto-instrumentations-node/register";
+
+import { trace } from "@opentelemetry/api";
+
 import { fastify } from "fastify";
 import { fastifyCors } from "@fastify/cors";
 
@@ -11,6 +15,9 @@ import {
 import { db } from "../db/client.ts";
 import { schema } from "../db/schema/index.ts";
 import { dispatchOrderCreated } from "../broker/messages/order-created.ts";
+import { tracer } from "../tracer/tracer.ts";
+
+import { setTimeout } from "node:timers/promises";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -50,13 +57,22 @@ app.post(
     };
 
     try {
-      dispatchOrderCreated(orderData);
-
       await db.insert(schema.orders).values({
         id: orderId,
         customerId,
         amount,
       });
+
+      const span = tracer.startSpan("process order");
+
+      span.setAttribute("order.id", orderId);
+
+      // testing purpose only
+      await setTimeout(2000);
+
+      span.end();
+
+      dispatchOrderCreated(orderData);
 
       return response.status(201).send();
     } catch (error) {
