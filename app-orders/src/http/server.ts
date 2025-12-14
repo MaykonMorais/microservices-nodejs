@@ -49,15 +49,20 @@ app.post(
       },
     };
 
-    dispatchOrderCreated(orderData);
+    try {
+      dispatchOrderCreated(orderData);
 
-    await db.insert(schema.orders).values({
-      id: orderId,
-      customerId,
-      amount,
-    });
+      await db.insert(schema.orders).values({
+        id: orderId,
+        customerId,
+        amount,
+      });
 
-    return response.status(201).send();
+      return response.status(201).send();
+    } catch (error) {
+      console.error("Error processing order:", error);
+      return response.status(500).send({ error: "Internal Server Error" });
+    }
   }
 );
 

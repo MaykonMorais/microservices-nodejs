@@ -1,0 +1,11 @@
+services:
+  invoices-pg:
+    image: bitnami/postgresql:latest
+    ports:
+      - "5433:5433"
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=invoices
+    volumes:
+      - ./docker:/docker-entrypoint-initdb.d
