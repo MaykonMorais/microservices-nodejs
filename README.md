@@ -2,7 +2,7 @@
 
 Um projeto completo de microserviços em Node.js com arquitetura moderna, orquestração via Pulumi e infraestrutura como código na AWS.
 
-## 🏗️ Arquitetura
+### Arquitetura
 
 - **app-orders**: Serviço de pedidos que expõe uma API REST
 - **app-invoices**: Serviço de faturas que consome mensagens do broker
@@ -12,7 +12,7 @@ Um projeto completo de microserviços em Node.js com arquitetura moderna, orques
 - **Jaeger**: Rastreamento distribuído (OTEL)
 - **PostgreSQL**: Banco de dados para persistência
 
-## 📋 Pré-requisitos
+### Pré-requisitos
 
 - Node.js >= 22
 - Docker & Docker Compose
@@ -20,7 +20,7 @@ Um projeto completo de microserviços em Node.js com arquitetura moderna, orques
 - Credenciais AWS configuradas
 - Yarn (opcional, mas recomendado)
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 .
@@ -58,9 +58,9 @@ Um projeto completo de microserviços em Node.js com arquitetura moderna, orques
 └── docker-compose.yml          # Orquestração local
 ```
 
-## 🔧 Variáveis de Ambiente
+### Variáveis de Ambiente
 
-### app-orders (.env)
+#### app-orders (.env)
 
 ```env
 DATABASE_URL="postgresql://user:password@host:5432/orders"
@@ -69,7 +69,7 @@ OTEL_SERVICE_NAME="orders"
 OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318"
 ```
 
-### app-invoices (.env)
+#### app-invoices (.env)
 
 ```env
 DATABASE_URL="postgresql://user:password@host:5433/invoices"
@@ -78,21 +78,13 @@ OTEL_SERVICE_NAME="invoices"
 OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318"
 ```
 
-## 🔍 Observabilidade
+### Observabilidade
 
 O projeto inclui integração completa com OpenTelemetry:
 
 - **Traces**: Jaeger em http://localhost:16686
 - **Métricas**: Configuradas para Grafana Cloud
 - **Instrumentações**: HTTP, Fastify, PostgreSQL, AMQP
-
-## 🐳 Docker & Pulumi
-
-### Imagens Customizadas
-
-- **Orders**: Construída a partir de app-orders
-- **Invoices**: Padrão Node.js (comentado em Kong)
-- **Kong**: Customizada com envsubst para templates
 
 ## ☁️ Infraestrutura AWS
 
